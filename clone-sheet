@@ -1,0 +1,6 @@
+#!/bin/sh
+
+#This simply exports the current version of the google sheet
+#and dumps it in bestiary.csv
+
+curl 'https://docs.google.com/spreadsheets/d/1h-qlARhFbXXXuAkj0nCmSfJahoZ5yYEZ7IZGRCkawDg/export?gid=0&exportFormat=csv' > bestiary.csv
