@@ -47,7 +47,14 @@ def diff(a, b):
         print("No misses!")
 
 if __name__ == "__main__":
-    with open("Cait", "r") as wiki:
+    if len(sys.argv) == 1:
+        print("Please select an enemy to match")
+        sys.exit()
+    else:
+        r = requests.get("https://octopathtraveler.wikia.com/wiki/" +
+                         "_".join(sys.argv[1:]) +
+                         "?action=raw")
+        wiki = r.text.split('\n')
         data = {}
         PARSING = False
         for line in wiki:
@@ -58,7 +65,7 @@ if __name__ == "__main__":
                 if line.startswith("}}"):
                     PARSING = False
                     continue
-                scan = re.findall("\|(.*?)[ =]+(.*?)[\n\|}]", line)
+                scan = re.findall("\|(.*?)[ =]+(\w*)", line)
                 for item in scan:
                     data[item[0]] = item[1]
                 if "}}" in line:
@@ -71,5 +78,5 @@ if __name__ == "__main__":
                 data[key] = scan
 
         a = data
-        b = csv2dict("Cait")
+        b = csv2dict(" ".join(sys.argv[1:]))
         diff (a, b)
