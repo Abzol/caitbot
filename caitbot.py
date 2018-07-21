@@ -58,14 +58,16 @@ if __name__ == "__main__":
         data = {}
         PARSING = False
         for line in wiki:
-            if any(x in line for x in ["{{Template:Enemy",
+            if any(x in line for x in ["{{Enemy",
+                                       "{{Character",
+                                       "{{Template:Enemy",
                                        "{{Template:Character"]):
                 PARSING = True
             if PARSING:
                 if line.startswith("}}"):
                     PARSING = False
                     continue
-                scan = re.findall("\|(.*?)[ =]+(\w*)", line)
+                scan = re.findall("\|(.*?)[ =]+([ \w()]*)", line)
                 for item in scan:
                     data[item[0]] = item[1]
                 if "}}" in line:
